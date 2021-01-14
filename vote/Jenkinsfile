@@ -13,7 +13,9 @@ pipeline {
 
 			steps {
 				echo 'Compiling vote app'
-				sh 'pip install -i requirements.txt'
+				dir('vote') {
+					sh 'pip install -i requirements.txt'
+				}
 			}
 		}
 		stage('test') {
@@ -23,8 +25,10 @@ pipeline {
 
                         steps { 
                                 echo 'Running Unit Test on vote app'
-                                sh 'nosetests -v'
-                        }
+                                dir('vote') {
+					sh 'nosetests -v'
+				}
+			}
                 }
 	}
 

@@ -1,15 +1,7 @@
 pipeline {
 
- 	agent {
-		
-		docker {
-			
-			image 'maven:3.6.1-jdk-8-slim'
-			
-			args '-v $HOME/.m2:/root/.m2'
-
-		}
-
+	agent none
+	
 	stages {
 
 		stage('build') {
@@ -20,6 +12,18 @@ pipeline {
 
 			}
 
+			agent {
+				
+				docker {
+					
+					image 'maven:3.6.1-jdk-8-slim'
+					
+					args '-v $HOME/.m2:/root/.m2'
+
+				}
+
+			}
+		
 			steps {
 
 				echo 'Compiling worker app'
@@ -32,14 +36,24 @@ pipeline {
 
 			}
 
-		}
-
 		stage('test') {
 
 			when {
 				
 				changeset '**/worker/**'
                 
+			}
+
+			agent {
+				
+				docker {
+					
+					image 'maven:3.6.1-jdk-8-slim'
+					
+					args '-v $HOME/.m2:/root/.m2'
+
+				}
+
 			}
 
             steps { 
@@ -66,6 +80,18 @@ pipeline {
     
 	        }
 
+			agent {
+				
+				docker {
+					
+					image 'maven:3.6.1-jdk-8-slim'
+					
+					args '-v $HOME/.m2:/root/.m2'
+
+				}
+
+			}
+
             steps { 
     
 	            echo 'Packaging worker app'
@@ -81,13 +107,19 @@ pipeline {
 			}
             
 		}
-	
-	}
 
 		stage('docker-package') {
 			
 			agent any
 			
+			when { 
+	
+				branch 'master'
+    
+	            changeset '**/worker/**'
+    
+	        }
+
 			steps {
 				
 				echo 'Packaging worker app with docker'
@@ -99,6 +131,8 @@ pipeline {
 						def workerImage = docker.build("btrue2y/worker:v${env.BUILD_ID}", "./worker")
 						
 						workerImage.push()
+
+						workerImage.push("${env.BRANCH_NAME}")
 						
 						workerImage.push("latest")
 			        
@@ -110,6 +144,8 @@ pipeline {
 			
 		}
 
+	}
+	
 	post {
 
 		always {

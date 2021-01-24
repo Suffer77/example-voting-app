@@ -32,3 +32,10 @@ describe('mock test 5', () => {
     expect(true).to.be.true;
   });
 });
+
+
+describe('mock test 6', () => {
+  it('unit test 6', () => {
+    expect(true).to.be.true;
+  });
+});

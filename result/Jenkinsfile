@@ -32,7 +32,7 @@ pipeline {
 
   post{
     always{
-        echo 'Building multibranch pipeline for result is completed....'
+        echo 'Building multibranch pipeline for result is completed...'
     }
   }
 }

@@ -1,4 +1,4 @@
-[![Build Status](https://ca405e10e09f.ngrok.io/buildStatus/icon?job=Tests%2Fworker%2F1-worker-build)](https://ca405e10e09f.ngrok.io/job/Tests/job/worker/job/1-worker-build/)
+[![Build Status](https://f1158b6fca47.ngrok.io/buildStatus/icon?job=Tests%2Fworker%2F1-worker-build)](https://f1158b6fca47.ngrok.io/job/Tests/job/worker/job/1-worker-build/)
 
 Example Voting App
 =========

@@ -15,7 +15,7 @@ pipeline {
 		}
 		stage('test') {
             steps { 
-                echo '+Running Unit Test on result app'
+                echo 'Running Unit Test on result app'
 				dir('result') {
                     sh 'npm test'
                 }

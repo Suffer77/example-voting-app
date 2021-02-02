@@ -1,13 +1,14 @@
 pipeline {
-  agent{
-    docker{
-      image 'maven:3.6.1-jdk-8-slim'
-      args '-v $HOME/.m2:/root/.m2'
-    }
-  }
+  agent none
   stages{
       stage('build'){
-        steps{
+        agent{
+          docker{
+            image 'maven:3.6.1-jdk-8-slim'
+            args '-v $HOME/.m2:/root/.m2'
+          }
+        }
+	steps{
           echo 'Compiling worker app...'
           dir('worker'){
             sh 'mvn compile'
@@ -15,7 +16,13 @@ pipeline {
         }
       }
       stage('test'){
-        steps{
+        agent{
+          docker{
+            image 'maven:3.6.1-jdk-8-slim'
+            args '-v $HOME/.m2:/root/.m2'
+          }
+        }        
+	steps{
           echo 'Running Unit Test on worker app...'
           dir('worker'){
             sh 'mvn clean test'
@@ -23,13 +30,32 @@ pipeline {
           }
       }
       stage('package'){
-        steps{
+        agent{
+          docker{
+            image 'maven:3.6.1-jdk-8-slim'
+            args '-v $HOME/.m2:/root/.m2'
+          }
+        }
+	steps{
           echo 'Packaging worker app...'
           dir('worker'){
             sh 'mvn package -DskipTests'
             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
           }
         }
+      }
+      stage('docker-package'){
+          agent any
+          steps{
+            echo 'Packaging worker app with docker...'
+            script{
+              docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+                  def workerImage = docker.build('btrue2y/worker:v${env.BUILD_ID}', './worker')
+                  workerImage.push()
+                  workerImage.push('latest')
+              }
+            }
+          }
       }
   }
   post{

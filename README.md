@@ -1,3 +1,9 @@
+
+Build Status
+- worker-build: [![Build Status](https://btrue2y.loca.lt/buildStatus/icon?job=Tests%2Fworker%2F1-worker-build)](https://btrue2y.loca.lt/job/Tests/job/worker/job/1-worker-build/)
+- worker-test: [![Build Status](https://btrue2y.loca.lt/buildStatus/icon?job=Tests%2Fworker%2F2-worker-test&subject=Unittest)](https://btrue2y.loca.lt/job/Tests/job/worker/job/2-worker-test/)
+- worker-package: [![Build Status](https://btrue2y.loca.lt/buildStatus/icon?job=Tests%2Fworker%2F3-worker-package)](https://btrue2y.loca.lt/job/Tests/job/worker/job/3-worker-package/)
+
 Example Voting App
 =========
 

@@ -3,7 +3,7 @@ pipeline {
   stages{
       stage('build'){
         when{
-            changeset '**/vote/**'
+            changeset "**/vote/**"
         }
         agent{
           docker {
@@ -20,7 +20,7 @@ pipeline {
       }
       stage('test'){
         when{
-          changeset '**/vote/**'
+          changeset "**/vote/**"
         }
         agent{
           docker {

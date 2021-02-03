@@ -1,14 +1,14 @@
 pipeline {
-  agent any
-
-  tools{
-      nodejs 'NodeJS 8.9.0'
-  }
-
- stages{
+  agent none
+  stages{
       stage('build'){
         when{
-          changeset '**/result/**'
+            changeset "**/result/**"
+        }
+        agent{
+          docker{
+            image 'node:8.9-alpine'
+          }
         }
         steps{
           echo 'Compiling result app...'
@@ -19,20 +19,24 @@ pipeline {
       }
       stage('test'){
         when{
-          changeset '**/result/**'
+          changeset "**/result/**"
+        }
+        agent{
+          docker{
+            image 'node:8.9-alpine'
+          }
         }
         steps{
           echo 'Running Unit Test on result app...'
           dir('result'){
             sh 'npm test'
+           }
           }
-        }
       }
- }
-
+  }
   post{
     always{
-        echo 'Building multibranch pipeline for result is completed...'
+        echo 'Building multibranch pipeline for result is completed....'
     }
   }
 }
